@@ -11,11 +11,40 @@ datasource db {
 }
 
 model User {
-  id          String @id @default(uuid())
+  id         String   @id @default(uuid())
+  name       String
+  email      String
+  password   String
+  sexo       String
+  image      String
+  imageURL   String
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  @@map("users")
+}
+
+model Category {
+  id          String   @id @default(uuid())
+  name        String   @unique
+  description String
+  created_at  DateTime @default(now())
+
+  Product Product[]
+  @@map("categories")
+}
+
+model Product {
+  id          String   @id @default(uuid())
   name        String
-  email       String
-  password    String
-  sexo        String
+  description String
+  image       String
+  imageURL    String
+  valor       Float
+  category    String
+  Category    Category @relation(fields: [category], references: [id])
   created_at  DateTime @default(now())
   updated_at  DateTime @updatedAt
+
+  @@map("products")
 }
